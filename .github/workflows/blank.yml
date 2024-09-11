@@ -47,16 +47,26 @@ jobs:
           echo "Reporting build status..."
           # Aquí puedes agregar comandos para reportar el estado de la build
 
-  # New job to deploy the project
+  # Job to deploy to GitHub Pages
   deploy:
     # This job will only run after the report-build-status job completes successfully
     needs: report-build-status
     runs-on: ubuntu-latest
 
     steps:
+      # Check-out the repository content
+      - name: Checkout repository content
+        uses: actions/checkout@v4
+
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        run: |
-          echo "Deploying to GitHub Pages..."
-          # Aquí puedes agregar comandos para desplegar el proyecto
-          # Por ejemplo, puedes usar `actions/deploy-pages` o hacer push a la rama gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub automáticamente proporciona este token
+          publish_dir: ./  # Aquí defines el directorio donde está tu contenido estático a desplegar
+
+      # Opcional: Notificación de despliegue
+      - name: Notify deployment success
+        run: echo "Deployment successful to KevinPozos.github.io!"
+
 
