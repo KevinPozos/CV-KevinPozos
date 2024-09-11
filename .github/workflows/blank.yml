@@ -34,3 +34,29 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+  # New job to report build status
+  report-build-status:
+    # This job will only run after the build job completes successfully
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Report build status
+        run: |
+          echo "Reporting build status..."
+          # Aquí puedes agregar comandos para reportar el estado de la build
+
+  # New job to deploy the project
+  deploy:
+    # This job will only run after the report-build-status job completes successfully
+    needs: report-build-status
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        run: |
+          echo "Deploying to GitHub Pages..."
+          # Aquí puedes agregar comandos para desplegar el proyecto
+          # Por ejemplo, puedes usar `actions/deploy-pages` o hacer push a la rama gh-pages
+
